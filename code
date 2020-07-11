@@ -1,0 +1,62 @@
+#include <Servo.h>
+int val = 0, buzzer = 12, pir = 13, temp = A0 ;
+Servo myservo1;
+Servo myservo2;
+void setup(){
+  Serial.begin(9600);
+  myservo1.attach(11);
+  pinMode(10,INPUT ); 
+  pinMode(9,INPUT );  
+  pinMode(8,INPUT );  
+  pinMode(7,INPUT );
+  pinMode(6,INPUT ); 
+  pinMode(4,OUTPUT);
+  pinMode(pir,INPUT);
+  myservo2.attach(5);  
+  pinMode( buzzer,OUTPUT);}
+void loop(){  
+  int val =digitalRead(pir), temp =analogRead(A0);  
+  if( temp>=153)
+  {
+    digitalWrite(4,1);
+    Serial.println("Fan is ON");}
+  if (temp<153){
+    digitalWrite(4,0);
+    Serial.println("Fan is OFF");
+  }
+  Serial.println(val);
+  if(val == HIGH)
+  {
+    myservo2.write(180);
+    Serial.print("The door is open\n");
+    delay(15);
+  }
+  if(val == LOW)
+  {
+    myservo2.write(-180);
+    Serial.print("The door is closed\n");    
+    delay(1000);
+  }
+    
+  if( digitalRead(10) == 1 ){  
+    myservo1.write(0);
+    Serial.print("Ground Floor\n");
+    Serial.print("Servo motor angle is 0\n");
+  }
+  if( digitalRead(9) == 1 ){  
+    myservo1.write(90);
+    Serial.print("First Floor\n");
+    Serial.print("Servo motor angle is 90\n");}     
+  if( digitalRead(8) == 1 ){   
+    myservo1.write(180);
+    Serial.print("Second Floor\n");
+    Serial.print("Servo motor angle is 180\n");}     
+  if( digitalRead(7) == 1 ){     
+    myservo1.write(360);
+    Serial.print("Third Floor\n");}     
+  if( digitalRead(6) == 1 ){     
+    tone(buzzer,300,1000);
+    Serial.print("buzzer on\n");}    
+   val = digitalRead(5);  
+  delay (1000);}
+ 
